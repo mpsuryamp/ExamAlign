@@ -1,0 +1,139 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+        <!-- block body here -->
+        <form action="/allocatestaff/" enctype="multipart/form-data" method="post" class="attendance" style="width: 70%; margin: auto; margin-top: 50px; text-align: center;">
+            {% csrf_token %}
+            <h3>Allocate Staffs</h3>
+           <div class="divrow">
+            <div class="filter-input">
+              
+                <label for="examse">Exam Date:
+                    <select name="exams" id="examse">
+                        <option disabled selected>--ExamDate--</option>
+              {% for ex_instance in ex_instances %}
+              <option value="{{ex_instance.id}}">{{ex_instance.exam_date}}</option>
+              {% endfor %}
+                    </select>
+                </label>
+          
+                <label for="exam_hallse">Exam Hall:
+                    <select name="exam_hall" id="exam_hallse">
+                        <option disabled selected>--Select Exam Hall--</option>
+                    </select>
+                </label>
+
+               <label for="teacherse">Staff:
+                    <select name="teacher" id="teacherse">
+                        <option disabled selected>--Select Teacher--</option>
+                        {% for st_instance in st_instances %}
+                        <option value="{{st_instance.user.id}}">{{st_instance.user.first_name}}</option>
+                        {% endfor %}
+                    </select>
+              </label>
+
+
+
+          </div> 
+          <div class="newdiv"></div>
+          <button type="button" class="add">add more subject +</button>
+
+           </div>
+            
+            <input type="submit" value="submit" class="allocate">
+
+         </form>  
+        <!-- ends -->
+       </div>
+
+    </div>
+      
+
+
+
+
+     <script src="#"></script>
+     <script>
+         document.getElementById('examse').addEventListener('change', function() {
+        var examdate = this.value;
+        var examHallSelect = document.getElementById('exam_hallse');
+
+        // Clear previous options
+        examHallSelect.innerHTML = '<option disabled selected>--Select Exam Hall--</option>';
+
+        // Fetch exam halls for the selected exam
+        fetch('/get_exam_halls/?exam_date=' + examdate)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(function(hall) {
+                    var option = document.createElement('option');
+                    option.value = hall.hallno;
+                    console.log(hall.id)
+                    option.textContent = hall.hallno;
+                    examHallSelect.appendChild(option);
+                });
+            });
+    });
+function addNewRow() {
+    const container = document.querySelector('.divrow'); // Select the container for existing rows
+    const newFilterInput = document.createElement('div'); // Create a new filter input div
+    newFilterInput.classList.add('filter-input'); // Add the filter-input class
+    newFilterInput.innerHTML = `
+        <label for="exams">Exam Date:
+            <select name="exams" class="exam-date">
+                <option disabled selected>--Exam Date--</option>
+                {% for ex_instance in ex_instances %}
+                <option value="{{ ex_instance.id }}">{{ ex_instance.exam_date }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label for="exam_hall">Exam Hall:
+            <select name="exam_hall" class="exam-hall">
+                <option disabled selected>--Select Exam Hall--</option>
+            </select>
+        </label>
+
+        <label for="subject">Staff:
+            <select name="teacher" class="staff">
+                <option disabled selected>--Select Staff--</option>
+                {% for st_instance in st_instances %}
+                <option value="{{ st_instance.user.id }}">{{ st_instance.user.first_name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    `;
+    container.appendChild(newFilterInput);
+
+    // Attach event listener to the exam date select element of the new row
+    const newExamDateSelect = newFilterInput.querySelector('.exam-date');
+    newExamDateSelect.addEventListener('change', function() {
+        var examdate = this.value;
+        var examHallSelect = newFilterInput.querySelector('.exam-hall');
+        // Clear previous options
+        examHallSelect.innerHTML = '<option disabled selected>--Select Exam Hall--</option>';
+        // Fetch exam halls for the selected exam
+        fetch('/get_exam_halls/?exam_date=' + examdate)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(function(hall) {
+                    addOption(examHallSelect, hall.hallno, hall.hallno);
+                });
+            });
+    });
+
+    newFilterInput.appendChild(document.querySelector('.add'));
+    newFilterInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+        function addOption(selectElement, text, value) {
+            var option = document.createElement("option");
+            option.text = text;
+            option.value = value;
+            selectElement.add(option);
+        }
+
+        document.querySelector('.add').addEventListener('click', addNewRow);
+    </script>
+{% endblock %}

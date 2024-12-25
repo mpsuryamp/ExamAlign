@@ -1,0 +1,69 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+    <!-- main body here-->
+
+    <div class="main-body">
+         <div class="body">
+
+          <!-- block body here -->
+
+        <div class="div2">
+                  <form class="tutorAssign-form" id="addSubject-form">
+                      <h2>Add Subject</h2>
+                      <table class="addsub">
+                        <tr>
+                          <div class="department">
+                            <td> <label for="department">Branch:</label></td>
+                            <td>
+                            <select name="department" id="departmentSelect">
+                              <option disabled selected>--select Branch--</option>
+                              <option value="option1">Option 1</option>
+                              <option value="option2">Option 2</option>
+                          </select>
+                          </td>
+                         </div>
+                        </tr>
+                        <tr>
+                          <div class="semester">
+                              <td><label for="semester">Semester:</label></td>
+                              <td>
+                                <select name="Semester" id="SemesterSelect">
+                                  <option disabled selected>--select Semester--</option>
+                                  <option value="option1">Semester 1</option>
+                                  <option value="option2">Semester 2</option>
+                                  <option value="option2">Semester 3</option>
+                                  <option value="option2">Semester 4</option>
+                                
+                              </select>
+                              </td>
+                          </div>
+                        </tr>
+                        <tr>
+                          <td><label for="subject">Subject:</label></td>
+                          <td><input type="text"></td>
+                        </tr>
+                        
+                      </table>
+                      <button type="submit" class="addSubject-button">Submit</button>
+                </form>
+      
+              </div> 
+         </div> 
+  <!-- ends -->
+
+   </div>
+
+    </div>
+      
+
+
+
+{% endblock %}
+</div>
+
+</div>
+  
+
+

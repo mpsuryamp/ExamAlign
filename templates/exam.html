@@ -1,0 +1,53 @@
+
+{% extends 'base.html' %}
+{% block content %}
+         
+        <!-- block body here -->
+        <table class="assign-table">
+                <!-- filter dropdown -->
+                <button class="add-student-btn"><a href="/addexam" class="btn"><i class="fas fa-plus"></i> Add new exams</a></button>
+                <thead>    
+                   <tr>
+                      <th colspan="8" style="text-align: center;" class="th"><h3>exams</h3></th>
+                   </tr>
+                   <tr>
+                     <th colspan="8"  style="text-align: center;" class="th">
+                      <form action="/viewexam/" method="post">
+                          {% csrf_token %}
+                            <label for="department">Date:</label>
+                            <input type="date" name="exam_date" id=""min="2020-01-01" max="2099-12-31">
+                             <input type="submit" value="&#128269;" style="padding: 2px 10px; border-radius: 10px;">         
+                      </form>
+                     </th>
+                   </tr>
+                    <tr>
+                        <th>si.no</th>
+                        <th>Name</th>
+                        <th>Subject</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>No of Students</th>
+                        <th>Duration</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for exam_instance in exam_instances %}
+                        <td>{{forloop.counter}}</td>
+                        <td>{{ exam_instance.exam_name}}</td>
+                        <td>{{ exam_instance.exam_subject.subjectname}}</td>
+                        <td>{{ exam_instance.exam_date}}</td>
+                        <td>{{ exam_instance.exam_time}}</td>
+                        <td>{{ exam_instance.no_of_students}}</td>
+                        <td>{{ exam_instance.duration_hours}}</td>
+                        <td><a href="/examcontroller/deleteexam/{{exam_instance.id}}">Delete</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <!-- ends -->
+       </div>
+
+    </div>
+{% endblock %}

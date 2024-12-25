@@ -1,0 +1,67 @@
+
+{% extends 'base.html' %}
+{% block content %}
+        <!-- block body here -->
+        <form action="/addstaff/" method="post" class="attendance" id="form1" style=" margin: auto; text-align: center;">
+            {% csrf_token %}
+            <h3>Add Classrooms</h3>
+           <div class="divrow">
+               <div class="filter-input">
+                  <div class="classroom">
+
+                      <label for="subject">Branch:</label>
+
+                            <select name="subject" id="subject">
+                              <option disabled selected>--select Subject--</option>
+                                {% for s in subject_instances %}
+                              <option value="{{s.id}}">{{s.semester.semestername}}-{{s.branch.branchname}}-{{s.subjectname}}</option>
+                                {% endfor %}
+                          </select>
+
+                      <label for="staff_id">Staff id:<input type="text" id="capacity" name="staff_id"   class="inputs"></label>
+                      <label for="first_name">Name:<input type="text" id="columns" name="first_name"   class="inputs"></label>
+                      <label for="email">Email:<input type="email" id="columns" name="email"   class="inputs"></label>
+                  </div>
+              </div>
+              <div class="newdiv"></div>
+              <button type="button" class="add" id="add">add more staffs</button>
+
+            </div>
+            <input type="submit" value="submit" class="allocate">
+        </form>
+        <!-- ends -->
+    </div>
+    </div>
+     <script src="#"></script>
+     <script>
+function addNewRow() {
+    const container = document.querySelector('.divrow'); // Select the container for existing rows
+    const newFilterInput = document.createElement('div'); // Create a new filter input div
+    newFilterInput.classList.add('filter-input');
+    newFilterInput.innerHTML = `
+                  <div class="classroom">
+
+                      <label for="subject">Branch:</label>
+
+                            <select name="subject" id="subject">
+                              <option disabled selected>--select Subject--</option>
+                                {% for s in subject_instances %}
+                              <option value="{{s.id}}">{{s.semester.semestername}}-{{s.branch.branchname}}-{{s.subjectname}}</option>
+                                {% endfor %}
+                          </select>
+
+                      <label for="staff_id">Staff id:<input type="text" id="capacity" name="staff_id"   class="inputs"></label>
+                      <label for="first_name">Name:<input type="text" id="columns" name="first_name"   class="inputs"></label>
+                      <label for="email">Email:<input type="email" id="columns" name="email"   class="inputs"></label>
+                  </div>
+              </div>
+        `;
+    container.appendChild(newFilterInput);
+    container.appendChild(document.querySelector('.add'));
+    newFilterInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+document.querySelector('.add').addEventListener('click', addNewRow);
+
+</script>
+{% endblock %}

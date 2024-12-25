@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block content %}
+            <!-- block body here -->
+            <form action="/addexam/" class="attendance" id="form1" style=" margin: auto; text-align: center;" method="post">
+                {% csrf_token %}
+                <h3>Add Exams</h3>
+                <div class="divrow">
+                    <div class="filter-input">
+                        <div class="exam">
+                            <div class="exam11">
+                                <div class="date">
+                                    <label for="exam_date">Date: <input type="date" id="exam_date" name="exam_date" class="inputs"></label>
+                                    <label for="exam_time">Time:<input type="time" id="exam_time" name="exam_time" class="inputs"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="newdiv"></div>
+                <button type="button" class="add" id="add">Add Exams</button><br>
+                <input type="submit" value="submit" class="allocate">
+            </form>
+            <!-- ends -->
+        </div>
+    </div>
+    <script>
+
+function updateSubjects(container) {
+    var branch = container.querySelector('.branch-select').value;
+    var semester = container.querySelector('.semester-select').value;
+    var subjectDropdown = container.querySelector('.subject-select');
+    var studcount = container.querySelector('.student-count');
+
+    // Clear previous options
+    subjectDropdown.innerHTML = "";
+    studcount.value= "";
+
+    // Make an AJAX request to your Django backend to fetch subjects and student count
+    fetch(`/fetch-subjects/?branch=${branch}&semester=${semester}`)
+        .then(response => response.json())
+        .then(data => {
+            // Extract subjects and student count from the response
+            var subjects = data.subjects;
+            var studentcount = data.studentcount;
+
+            // Populate subjects dropdown with fetched subjects
+            subjects.forEach(function(subject) {
+                var option = document.createElement("option");
+                option.text = subject.subjectname;
+                option.value = subject.id;
+                subjectDropdown.appendChild(option);
+            });
+
+            // Update the student count input field with the fetched student count
+            var studentCountElement = container.querySelector('.student-count');
+            studentCountElement.value = studentcount;
+        })
+        .catch(error => {
+            console.error('Error fetching subjects:', error);
+        });
+}
+
+document.querySelector('.add').addEventListener('click', addNewRow);
+
+function addNewRow() {
+    const container = document.querySelector('.divrow'); // Select the container for existing rows
+    const newFilterInput = document.createElement('div'); // Create a new filter input div
+    newFilterInput.classList.add('filter-input'); // Add the filter-input class
+    newFilterInput.innerHTML = `
+        <div class="exam">
+            <div class="exam11">
+                <label for="exam_names">Exam name:<input type="text" id="exam_name" name="exam_datas" class="inputs"></label>
+                <label for="total_students">Total Students:<input type="text" class="student-count inputs" id="total_students" name="total_students" width="50px" class="ipno"></label>
+            </div>
+            <div class="exam1">
+                <label for="branch">Branch:
+                    <select class="branch-select inputs" name="branch_names">
+                        <option disabled selected>--Select Branch--</option>
+                        {% for sem_inst in branch_instances %}
+                        <option value="{{sem_inst.id}}">{{sem_inst.branchname}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label for="semester">Semester:
+                    <select class="semester-select inputs" name="semester_names">
+                       <option disabled selected>--Select Semester--</option>
+                        {% for sem_inst in semester_instances %}
+                        <option value="{{sem_inst.id}}">{{sem_inst.semestername}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label for="subject">Subject:
+                    <select class="subject-select inputs" name="subjects">
+                          <option disabled selected>--Select Subject--</option>
+                        {% for sem_inst in subjects_data %}
+                        <option value="{{sem_inst.id}}">{{sem_inst.subjectname}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
+        </div>
+    `;
+    container.appendChild(newFilterInput);
+    newFilterInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Add event listeners to the dropdowns within the newly added div
+    const branchSelect = newFilterInput.querySelector('.branch-select');
+    const semesterSelect = newFilterInput.querySelector('.semester-select');
+    const subjectSelect = newFilterInput.querySelector('.subject-select');
+    const studentinput = newFilterInput.querySelector('.student-count');
+
+    // Event listeners for updating subjects and student count
+    semesterSelect.addEventListener('change', function() {
+        updateSubjects(newFilterInput);
+    });
+
+    branchSelect.addEventListener('change', function() {
+        updateSemesters(newFilterInput);
+        updateSubjects(newFilterInput);
+    });
+}
+
+// Initialize event listeners for existing exam divs
+document.querySelectorAll('.branch-select').forEach(function(branchSelect) {
+    branchSelect.addEventListener('change', function() {
+        updateSemesters(this.closest('.filter-input'));
+        updateSubjects(this.closest('.filter-input'));
+    });
+});
+
+document.querySelectorAll('.semester-select').forEach(function(semesterSelect) {
+    semesterSelect.addEventListener('change', function() {
+        updateSubjects(this.closest('.filter-input'));
+    });
+});
+    </script>
+
+{% endblock %}

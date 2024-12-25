@@ -1,0 +1,46 @@
+
+{% extends 'base.html' %}
+{% block content %}
+        <!-- block body here -->
+        <form action="/addclassroom/" method="post" class="attendance" id="form1" style=" margin: auto; text-align: center;">
+            {% csrf_token %}
+            <h3>Add Classrooms</h3>
+           <div class="divrow">
+               <div class="filter-input">
+                  <div class="classroom">
+                      <label for="class_name">Class name:<input type="text" id="hallno" name="hallno"  class="inputs"></label>
+                      <label for="seat_capacity">Seating Capacity:<input type="number" id="capacity" name="capacity"   class="inputs"></label>
+                      <label for="Columns">Columns:<input type="number" id="columns" name="columns"   class="inputs"></label>
+                  </div> 
+              </div>
+              <div class="newdiv"></div>
+              <button type="button" class="add" id="add">add more classrooms</button>
+
+            </div> 
+            <input type="submit" value="submit" class="allocate">
+        </form>  
+        <!-- ends -->
+    </div>
+    </div>
+     <script src="#"></script>
+     <script>
+function addNewRow() {
+    const container = document.querySelector('.divrow'); // Select the container for existing rows
+    const newFilterInput = document.createElement('div'); // Create a new filter input div
+    newFilterInput.classList.add('filter-input'); 
+    newFilterInput.innerHTML = `
+               <div class="classroom">
+                    <label for="class_name">Class name:<input type="text" id="hallno" name="hallno"  class="inputs"></label>
+                    <label for="seat_capacity">Seating Capacity:<input type="number" id="capacity" name="capacity"   class="inputs"></label>
+                    <label for="Columns">Columns:<input type="number" id="Columns" name="columns"   class="inputs"></label>
+               </div>
+        `;
+    container.appendChild(newFilterInput); 
+    container.appendChild(document.querySelector('.add'));
+    newFilterInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+document.querySelector('.add').addEventListener('click', addNewRow); 
+
+</script>
+{% endblock %}

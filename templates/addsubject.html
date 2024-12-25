@@ -1,0 +1,108 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+        <!-- block body here -->
+        <form action="/addsub/" method="post" class="attendance" style="width: 70%; margin: auto; margin-top: 50px; text-align: center;">
+            {% csrf_token %}
+            <h3>Add Subjects</h3>
+           <div class="divrow">
+            <div class="filter-input">
+              
+                <label for="Semester">Branch:
+                    <select name="branch" id="branch">
+                        <option disabled selected>--Branch--</option>
+              {% for branch_instance in branch_instances %}
+              <option value="{{branch_instance.id}}">{{branch_instance.branchname}}</option>
+              {% endfor %}
+                    </select>
+                </label>
+          
+                <label for="Semester">Semester:
+                    <select name="semester" id="sem">
+                        <option disabled selected>--Semester--</option>
+                                  {% for semester_instance in semester_instances %}
+              <option value="{{ semester_instance.id }}">{{ semester_instance.semestername }}</option>
+          {% endfor %}
+                    </select>
+                </label>
+
+               <label for="subject">Subject:
+               <input type="text" name="subjectname">
+              </label>
+
+              <label for="subject">Subject Code:
+                <input type="text" name="subjectcode">
+            </label>
+
+          </div> 
+          <div class="newdiv"></div>
+          <button type="button" class="add">add more subject +</button>
+
+           </div>
+            
+            <input type="submit" value="submit" class="allocate">
+
+         </form>  
+        <!-- ends -->
+       </div>
+
+    </div>
+      
+
+
+
+
+     <script src="#"></script>
+     <script>
+        function addNewRow() {
+            const container = document.querySelector('.divrow'); // Select the container for existing rows
+            const newFilterInput = document.createElement('div'); // Create a new filter input div
+            newFilterInput.classList.add('filter-input'); // Add the filter-input class
+            newFilterInput.innerHTML = `
+                <label for="Semester">Branch:
+                    <select name="branch" class="branch">
+                        <option disabled selected>--Branch--</option>
+              {% for branch_instance in branch_instances %}
+              <option value="{{branch_instance.id}}">{{branch_instance.branchname}}</option>
+              {% endfor %}
+                    </select>
+                </label>
+
+                <label for="Semester">Semester:
+                    <select name="semester" class="semester">
+                        <option disabled selected>--Semester--</option>
+                                                    {% for semester_instance in semester_instances %}
+              <option value="{{ semester_instance.id }}">{{ semester_instance.semestername }}</option>
+          {% endfor %}
+                    </select>
+                </label>
+
+                <label for="subject">Subject:
+                    <input type="text" name="subjectname">
+                </label>
+                <label for="subject">Subject Code:
+                    <input type="text" name="subjectcode">
+                </label>
+            `;
+            container.appendChild(newFilterInput);
+            container.appendChild(document.querySelector('.add'));
+            newFilterInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+
+
+        }
+
+        function addOption(selectElement, text, value) {
+            var option = document.createElement("option");
+            option.text = text;
+            option.value = value;
+            selectElement.add(option);
+        }
+
+        document.querySelector('.add').addEventListener('click', addNewRow);
+    </script>
+{% endblock %}
+
+
+

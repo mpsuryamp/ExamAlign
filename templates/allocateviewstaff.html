@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}
+{% block content %}
+         
+        <!-- block body here -->
+        <table class="assign-table">
+                <!-- filter dropdown -->
+                <button class="add-student-btn"><a href="/allocatestaff" class="btn"><i class="fas fa-plus"></i> Allocate staff</a></button>
+                <thead>    
+                   <tr>
+                      <th colspan="5" style="text-align: center;"><h3>Staffs</h3></th>
+                   </tr>
+                    <tr>
+                        <th>Name of Exam</th>
+                        <th>Date of Exam</th>
+                        <th>Exam hall</th>
+                        <th>Teacher</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for s in ts_instances %}
+                    <tr>
+                        <td>{{s.exam.exam_name}}</td>
+                        <td>{{s.exam.exam_date}}</td>
+                        <td>{{s.exam_hall.hallno}}</td>
+                        <td>{{s.teacher.first_name}}</td>
+                        <td><a href="/examcontroller/allocatedeletestaff/{{s.id}}">Delete</a></td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <!-- ends -->
+       </div>
+
+    </div>
+{% endblock %}
+
+

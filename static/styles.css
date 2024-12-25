@@ -1,0 +1,217 @@
+ /* subject add form */
+ .div2{
+    padding: 50px;
+     background-color: #ffffff;
+     height: 70vh;
+}
+.tutorAssign-form {
+    margin: auto;
+    background-color:var(--color1);
+    padding:10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
+    width: 450px;
+    text-align: center;
+    color: #e9e3e3;
+  }
+  
+  .tutorAssign-form h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  .tutorAssign-form div{
+    margin-bottom: 20px;
+  }
+  
+  .tutorAssign-form label {
+    margin-bottom: 5px;
+  }
+  
+  .tutorAssign-form input {
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  .tutorAssign-form input:focus{
+    outline: none;
+  }
+ .addSubject-button {
+    background-color: #ffffff;
+    color: #0e55ba;
+    padding: 10px;
+    width: 30%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 800;
+  }
+  .addSubject-button:hover{
+    background-color: #031a30;
+    color: #fff;
+  }
+
+  .addsub th, .addsub td{
+    background-color:var(--color1);
+  }
+ /* staff-assign-table */
+ .assign-table{
+  width: 100%;
+  max-width: 70%;
+  margin: auto;
+  margin-top: 40px;
+  border-radius: 10px;
+  color: #323131;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.8)  
+}
+
+.assign-table .th{
+  padding-left: 10px;
+}
+/* subject add form */
+.addSubject-button {
+background-color: #ffffff;
+color: #0e55ba;
+padding: 10px;
+width: 30%;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-weight: 800;
+}
+.addSubject-button:hover{
+background-color: #031a30;
+color: #fff;
+}
+
+.addsub th, .addsub td{
+ background-color: var(--color1);
+}
+.btnadd{
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+}
+.btnadd a{
+  color: #fff;
+  text-decoration: none;
+}
+.btnadd:hover{
+  background-color: rgb(255, 255, 255);
+  box-shadow: 10px 15px 20px rgba(0,0,0,0.9);
+  border: 2px solid rgb(32, 72, 232);
+}
+.btnadd:hover a{
+  color: rgb(32, 72, 232);
+}
+
+.head{
+  background-color: var(--color1);
+}
+
+
+/* seating display page */
+.seat{
+  padding: 20px;
+  text-align: center;
+}
+.cards{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.card {
+background-color: #fff;
+border-radius: 8px;
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+padding: 20px;
+max-width: 400px;
+text-align: center;
+margin: 5px 10px;
+
+h2 {
+margin-top: 0;
+}
+
+p {
+margin-bottom: 10px;
+}
+}
+
+.divrow{
+  text-align: center;
+  padding: 20px;
+border: 2px solid rgba(3, 146, 179, 0.1);
+border-radius: 20px;
+width: auto;
+}
+.add{
+  padding:2px 5px;
+  background-color: var(--color1);
+  border-radius: 5px;
+  color: #fff;
+  margin: auto;
+}
+.filter-input{
+  background-color: var(--color3); 
+  padding: 15px; 
+  color:#fff; 
+  border-radius: 10px; 
+  box-shadow: 0 10px 20px rgba(123, 122, 122, 0.8);
+  margin: 20px;
+}
+
+.inputs{
+  width: 150px;
+  &:focus{
+      outline: none;
+  }
+ }
+.allocate{
+  background-color: #ffffff;
+  border: 3px solid #02782d;
+  outline: 5px solid #ffffff;
+  color: #02782d;
+  border-radius: 5px;
+  padding: 5px 20px;
+  margin-top: 20px;
+  font-weight: bold;
+  &:hover{
+  color: #fff;
+  background-color: #02782d;
+  border: 3px solid #ffffff;
+  outline: 5px solid #02782d;
+  }
+}
+.classroom{
+  color: #021d3e;
+  display: flex;
+ background-color: #fefefe;
+ padding: 20px;
+ margin: 10px 0;
+border-radius: 5px;
+}
+.exam{
+ padding: 20px;
+ display: flex;
+ flex-wrap: wrap;
+ .exam1{
+  display: flex;
+ }
+}
+.ipno{
+  width: 30px;
+padding: 5px 0;
+}
+
+.classroom{
+  justify-content: center;
+  input{
+    margin: 5px;
+    padding: 2px 5px;
+  }
+}
+.date{
+  background-color: aliceblue; 
+  color: #000; padding: 15px; 
+  border-radius: 5px; 
+  margin: 10px;
+}

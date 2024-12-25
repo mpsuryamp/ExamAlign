@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- Font Awesome icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Exo+2:ital,wght@0,300;1,200;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+ <!-- custom css -->
+ <link rel="stylesheet" href="style.css">
+ <link rel="stylesheet" href="styles.css">
+<style>
+
+</style>
+</head>
+<body>
+      <div class="headbar">
+            <h1 style="margin: 10px;">Exam Seater</h1>
+      </div>
+            <!-- Topbar -->
+
+
+   <div class="navbar">
+        <div class="navbar-toggler">&#9776;</div>
+        <ul>
+            <li><a href="/examcontroller/viewsub/">Subject & details</a></li>
+          <li><a href="/examcontroller/viewexam/">Exams</a></li>
+          <li><a href="/examcontroller/viewclassroom/">Classrooms</a></li>
+          <li><a href="/examcontroller/newseat/">Seat allocation</a></li>
+            <li><a href="/examcontroller/viewstaff/">staff</a></li>
+            <li><a href="/examcontroller/allocateviewstaff/">allocate staff</a></li>
+            <li><a href="/userlogout/">Logout</a></li>
+          </ul>
+   </div>
+
+
+    <div class="main-body">
+      <div class="body">
+{% extends 'base.html' %}
+{% block content %}
+    <!-- Block body here -->
+    <div class="attendance" id="form1" style="width: 70%; margin: auto; margin-top: 50px; text-align: center;">
+        <form action="" >
+            <div class="divrow">
+                <div style="width: 100%;">
+                    <label for="date">Date:
+                        <input type="date" id="date" name="exam_date">
+                    </label>
+                </div>
+                <div class="card" style="margin: auto;">
+                    <p>No of students: <span id="students_count"></span></p>
+                    <button class="add" onclick="allocateClassrooms()" id="allocate">Allocate Classrooms</button>
+                </div>
+                <div class="detl" >
+                    <div class="det">
+                        <div class="filter-input">
+                            <div class="classroom">
+                                <label for="class_name">Class name:
+                                    <select id="class_name" name="class_name" class="inputs" style="width: 100%;">
+                                        <option disabled selected>--Select classroom--</option>
+                                        {% for classroom_instance in classroom_instances %}
+                                            <option value="{{classroom_instance.id}}">{{classroom_instance.hallno}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                                <label for="seat_capacity">Seating Capacity:<input type="number" id="seat_capacity" name="seat_capacity" class="inputs"></label>
+                                <label for="Columns">Columns:<input type="number" id="Columns" name="Columns" class="inputs"></label>
+                            </div>
+                            <div class="newdiv"></div>
+                        </div>
+                    </div>
+                    <button id="addClassroom" class="add" onclick="addRow()">Add Classroom</button>
+                </div>
+            </div>
+            <button type="submit" class="allocate">Allocate</button>
+        </form>
+    </div>
+
+    <script>
+        function allocateClassrooms(event) {
+            event.preventDefault();
+            document.querySelector('.detl').style.display = 'block';
+            document.getElementById('allocate').style.display = 'none';
+        }
+
+        function addRow(event) {
+            event.preventDefault();
+            const container = document.querySelector('.det');
+            const classroomDiv = document.createElement('div');
+            classroomDiv.classList.add('filter-input');
+            classroomDiv.innerHTML = `
+                <div class="classroom">
+                    <label for="class_name">Class name:
+                        <select id="class_name" name="class_name" class="inputs" style="width: 100%;">
+                            <option disabled selected>--Select classroom--</option>
+                            {% for classroom_instance in classroom_instances %}
+                                <option value="{{classroom_instance.id}}">{{classroom_instance.hallno}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label for="seat_capacity">Seating Capacity:<input type="number" id="seat_capacity" name="seat_capacity" class="inputs"></label>
+                    <label for="Columns">Columns:<input type="number" id="Columns" name="Columns" class="inputs"></label>
+                </div>
+                <div class="newdiv"></div>
+            `;
+            container.appendChild(classroomDiv);
+            container.appendChild(document.querySelector('.add'));
+            classroomDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        const classSelect = document.getElementById('class_name');
+        classSelect.addEventListener('change', function () {
+            const classroomId = classSelect.value;
+            const url = `/examcontroller/get_class_details/${classroomId}/`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const seatCapacityInput = document.querySelector('#seat_capacity');
+                    const columnsInput = document.querySelector('#Columns');
+                    seatCapacityInput.value = data.capacity;
+                    columnsInput.value = data.columns;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+<!--        document.getElementById('addClassroom').style.display = 'none';-->
+
+        window.onload = function () {
+            const dateInput = document.getElementById('date');
+            dateInput.addEventListener('change', function () {
+                const examDate = dateInput.value;
+                const url = `/examcontroller/get_students_count/${examDate}/`;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('students_count').innerText = data.students_count;
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        };
+    </script>
+{% endblock %}
+</div>
+
+</div>
+  
+
+
+
+
+ <script src="#"></script>
+</body>
+</html>
+

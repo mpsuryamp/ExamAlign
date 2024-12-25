@@ -1,0 +1,45 @@
+
+{% extends 'base.html' %}
+{% block content %}
+         
+        <!-- block body here -->
+        <table class="assign-table">
+                <!-- filter dropdown -->
+                <button class="add-student-btn"><a href="/addclassroom" class="btn"><i class="fas fa-plus"></i> Add new classrooms</a></button>
+                <thead>    
+                   <tr>
+                      <th colspan="5" style="text-align: center;"><h3>Classrooms</h3></th>
+                   </tr>
+                    <tr>
+                        <th>Hallno</th>
+                        <th>Seating capacity</th>
+                        <th>Columns</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for s in classroom_instances %}
+                    <tr>
+                        <td>{{s.hallno}}</td>
+                        <td>{{s.capacity}}</td>
+                        <td>{{s.columns}}</td>
+                        <td><a href="/deleteclassroom/{{s.id}}">Delete</a></td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <!-- ends -->
+       </div>
+
+    </div>
+{% endblock %}
+</div>
+
+</div>
+  
+
+
+
+
+

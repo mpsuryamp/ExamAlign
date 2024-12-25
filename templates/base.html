@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- Font Awesome icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Exo+2:ital,wght@0,300;1,200;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+ <!-- custom css -->
+ <link rel="stylesheet" href="{% static 'style.css' %}">
+ <link rel="stylesheet" href="{% static 'styles.css' %}">
+<style>
+
+</style>
+</head>
+<body>
+      <div class="headbar">
+            <h1 style="margin: 10px;">Exam Seater</h1>
+      </div>
+            <!-- Topbar -->
+
+
+   <div class="navbar">
+        <div class="navbar-toggler">&#9776;</div>
+        <ul>
+            <li><a href="/viewsub/">Subject & details</a></li>
+          <li><a href="/viewexam/">Exams</a></li>
+          <li><a href="/viewclassroom/">Classrooms</a></li>
+          <li><a href="/newseat/">Seat allocation</a></li>
+            <li><a href="/viewstaff/">staff</a></li>
+            <li><a href="/allocateviewstaff/">allocate staff</a></li>
+            <li><a href="/">Logout</a></li>
+          </ul>
+   </div>
+
+
+    <div class="main-body">
+      <div class="body">
+         {% block content %}
+          {% endblock %}
+        <!-- block body here -->
+
+       </div>
+
+    </div>
+      
+
+
+
+
+     <script src="#"></script>
+</body>
+</html>
