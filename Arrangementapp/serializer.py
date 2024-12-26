@@ -44,5 +44,11 @@ class ComplaintSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint
         fields = [
-            'User', 'Reply', 'Date']        
+            'User', 'Reply', 'Date']     
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Complaint
+        fields = [
+            'User', 'Reply', 'Date']              
 

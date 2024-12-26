@@ -36,10 +36,6 @@ class LoginPage(View):
 
        
 
-           
-       
-
-
 
 #////////////////////////////////ADMIN////////////////////////
 
@@ -366,6 +362,7 @@ class UserRegAPI(APIView):
 
 class LoginPageAPI(APIView):
     def post(self, request):
+        print("################API###############")
         response_dict = {}
 
         # Get data from the request
@@ -378,7 +375,7 @@ class LoginPageAPI(APIView):
             return Response(response_dict, status=HTTP_400_BAD_REQUEST)
 
         # Fetch the user from LoginTable
-        t_user = Login.objects.filter(username=username).first()
+        t_user = Login.objects.filter(Username=username).first()
 
         if not t_user:
             response_dict["message"] = "failed"
@@ -392,6 +389,7 @@ class LoginPageAPI(APIView):
         # Successful login response
         response_dict["message"] = "success"
         response_dict["login_id"] = t_user.id
+        response_dict["usertype"] = t_user.Usertype
 
         return Response(response_dict, status=HTTP_200_OK)
 
@@ -429,6 +427,19 @@ class ComplaintAPI(APIView):
                 serializer.save()
                 return Response(
                     {"message": "Complaint sent successfully!", "product": serializer.data},
+                    status=status.HTTP_201_CREATED
+                )
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class FeedbackAPI(APIView):
+    def post(self, request):
+
+    # Handle product addition
+            serializer = FeedbackSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(
+                    {"message": "Feedback sent successfully!", "product": serializer.data},
                     status=status.HTTP_201_CREATED
                 )
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

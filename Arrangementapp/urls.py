@@ -33,6 +33,7 @@ path('ViewExamNotificationapi',ViewExamNotificationAPI.as_view(),name='ViewExamN
 path('ViewReplyapi',ViewReplyAPI.as_view(),name='ViewReply'),
 path('Complaintapi',ComplaintAPI.as_view(),name='Complaint'),
 path('LoginPageapi',LoginPageAPI.as_view(),name='LoginPage'),
+path('Feedbackapi',FeedbackAPI.as_view(),name='Feedback'),
 
 
 ]
