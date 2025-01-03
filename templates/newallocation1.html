@@ -1,52 +1,9 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <!-- Font Awesome icons-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <!-- google fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Exo+2:ital,wght@0,300;1,200;1,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
- <!-- custom css -->
- <link rel="stylesheet" href="style.css">
- <link rel="stylesheet" href="styles.css">
-<style>
 
-</style>
-</head>
-<body>
-      <div class="headbar">
-            <h1 style="margin: 10px;">Exam Seater</h1>
-      </div>
-            <!-- Topbar -->
-
-
-   <div class="navbar">
-        <div class="navbar-toggler">&#9776;</div>
-        <ul>
-            <li><a href="/examcontroller/viewsub/">Subject & details</a></li>
-          <li><a href="/examcontroller/viewexam/">Exams</a></li>
-          <li><a href="/examcontroller/viewclassroom/">Classrooms</a></li>
-          <li><a href="/examcontroller/newseat/">Seat allocation</a></li>
-            <li><a href="/examcontroller/viewstaff/">staff</a></li>
-            <li><a href="/examcontroller/allocateviewstaff/">allocate staff</a></li>
-            <li><a href="/userlogout/">Logout</a></li>
-          </ul>
-   </div>
-
-
-    <div class="main-body">
-      <div class="body">
 {% extends 'base.html' %}
 {% block content %}
             <!-- Block body here -->
             <div class="attendance" id="form1" style="width: 70%; margin: auto; margin-top: 50px; text-align: center;">
-                <form action="/examcontroller/newseat/" method="post">
+                <form action="/Allocateseat/" method="post">
                     {% csrf_token %}
                     <div class="divrow">
                         <div style="width: 100%;">
@@ -125,7 +82,7 @@
             const dateInput = document.getElementById('date');
             dateInput.addEventListener('change', function () {
                 const examDate = dateInput.value;
-                const url = `/examcontroller/get_students_count/${examDate}/`;
+                const url = `/get_students_count/${examDate}/`;
 
                 fetch(url)
                     .then(response => response.json())
@@ -139,7 +96,7 @@
         const classSelect = document.getElementById('class_name');
         classSelect.addEventListener('change', function () {
             const classroomId = classSelect.value;
-            const url = `/examcontroller/get_class_details/${classroomId}/`;
+            const url = `/get_class_details/${classroomId}/`;
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -152,15 +109,6 @@
         });
     </script>
 {% endblock %}
-</div>
-
-</div>
-  
 
 
-
-
- <script src="#"></script>
-</body>
-</html>
 

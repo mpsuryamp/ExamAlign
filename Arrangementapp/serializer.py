@@ -37,18 +37,15 @@ class ExamNotificationserializer(serializers.ModelSerializer):
 class Replyserializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint
-        fields = [
-            'User', 'Reply', 'Date']        
+        fields = ['User', 'Reply', 'Date']        
         
 class ComplaintSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint
-        fields = [
-            'User', 'Reply', 'Date']     
+        fields = ['complaints', 'Reply']     
 
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint
-        fields = [
-            'User', 'Reply', 'Date']              
+        fields = ['complaints', 'Reply', 'Date']              
 

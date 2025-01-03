@@ -53,13 +53,13 @@ class ExamDetails(models.Model):
 
 
 class Seating_Arrangement(models.Model):
-    classroom_NO=models.ForeignKey(Classroom,on_delete=models.CASCADE,null=True,blank=True)
-    Subject=models.ForeignKey(Subject,on_delete=models.CASCADE,null=True,blank=True)
-    Exam_Date=models.DateField(max_length=100,null=True,blank=True)
-    Exam_Name=models.CharField(max_length=100,null=True,blank=True)
-    Seat_NO=models.CharField(max_length=100,null=True,blank=True)
-    Exam_time=models.TimeField(max_length=100,null=True,blank=True)
-    Reg_NO=models.CharField(max_length=100,null=True,blank=True)
+    classroom_number=models.ForeignKey(Classroom,on_delete=models.CASCADE,null=True,blank=True)
+    subject=models.ForeignKey(Subject,on_delete=models.CASCADE,null=True,blank=True)
+    exam_date=models.DateField(max_length=100,null=True,blank=True)
+    exam_name=models.CharField(max_length=100,null=True,blank=True)
+    seat_number=models.CharField(max_length=100,null=True,blank=True)
+    exam_time=models.TimeField(max_length=100,null=True,blank=True)
+    register_no=models.CharField(max_length=100,null=True,blank=True)
 
 
 class Staff_Profile(models.Model):
@@ -111,8 +111,9 @@ class ExamNotification(models.Model):
     exam_time = models.TimeField(null=True, blank=True)
 
 class Complaint(models.Model):
-      user = models.OneToOneField(Login, null=True, blank=True, on_delete=models.CASCADE)
-      Date=models.DateField(max_length=100,null=True,blank=True)
+      user = models.ForeignKey(Login, null=True, blank=True, on_delete=models.CASCADE)
+      complaints=models.CharField(max_length=300, null=True, blank=True)
+      Date=models.DateField(auto_now_add=True, max_length=100,null=True,blank=True)
       Reply = models.CharField(max_length=100,null=True,blank=True)
 
     
