@@ -1,0 +1,37 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+
+    <div class="container">
+        <h1>Malpractice Report</h1>
+        <table id="report-table">
+            <thead>
+                <tr>
+                    <th> ID</th>
+                    <th>registerno</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be inserted here dynamically -->
+                {% for s in Malpractice_instances %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{s.registerno}}</td>
+                    <td>{{s.Description }}</td>
+                    <td><a href="{{s.Image.url}}" target="_blank">view</td>
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="script.js"></script>
+
+    {% endblock %}
+

@@ -1,0 +1,46 @@
+{% extends 'base.html'%}
+{% block content%}
+    <h1>Seating Arrangement</h1>
+
+    <label for="classroom-filter">Classroom:</label>
+    <select id="classroom-filter">
+        <option value="">All</option>
+        {% for classroom in classrooms %}
+        <option value="{{ classroom.id }}">{{ classroom.hallno }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="date-filter">Exam Date:</label>
+    <input type="date" id="date-filter">
+
+    <button id="filter-button">Filter</button>
+    <button onclick="printTable()">Print PDF</button>
+
+    <table id="seating-table">
+        <thead>
+            <tr>
+                <th>Classroom</th>
+                <th>Subject</th>
+                <th>Exam Date</th>
+                <th>Exam Name</th>
+                <th>Seat Number</th>
+                <th>Exam Time</th>
+                <th>Register No</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            {% for arrangement in arrangements %}
+            <tr data-classroom="{{ arrangement.classroom_number.id }}" data-date="{{ arrangement.exam_date }}">
+                <td>{{ arrangement.classroom_number.hallno }}</td>
+                <td>{{ arrangement.subject.subjectname }}</td>
+                <td>{{ arrangement.exam_date }}</td>
+                <td>{{ arrangement.exam_name }}</td>
+                <td>{{ arrangement.seat_number }}</td>
+                <td>{{ arrangement.exam_time }}</td>
+                <td>{{ arrangement.register_no }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}
+

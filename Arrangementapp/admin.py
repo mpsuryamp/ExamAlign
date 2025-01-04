@@ -15,6 +15,7 @@ admin.site.register(Studentprofile)
 admin.site.register(Teacherseatingarrangement)
 admin.site.register(ExamNotification)
 admin.site.register(Complaint)
+admin.site.register(Malpractice)
 
 
 

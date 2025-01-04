@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Login,Seating_Arrangement,ExamDetails,ExamNotification,Complaint, Studentprofile
+from .models import Login,Seating_Arrangement,ExamDetails,ExamNotification,Complaint, Studentprofile,Malpractice
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,7 +32,7 @@ class ExamNotificationserializer(serializers.ModelSerializer):
     class Meta:
         model = ExamNotification
         fields = [
-            'Exam_Date','Exam_Name','Exam_time',] 
+            'notification''Exam_Date','Exam_Name','Exam_time',] 
 
 class Replyserializer(serializers.ModelSerializer):
     class Meta:
@@ -47,5 +47,11 @@ class ComplaintSerializer(serializers.ModelSerializer):
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint
-        fields = ['complaints', 'Reply', 'Date']              
+        fields = ['complaints', 'Reply', 'Date']  
+
+
+class MalpracticeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Malpractice
+        fields = ['user''registerno', 'Description', 'image']                      
 

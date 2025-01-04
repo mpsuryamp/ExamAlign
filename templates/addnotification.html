@@ -1,0 +1,49 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+    <!-- main body here-->
+
+    <div class="main-body">
+         <div class="body">
+
+          <!-- block body here -->
+
+        <div class="div2">
+                  <form class="tutorAssign-form" id="addSubject-form" method="post">
+                    {% csrf_token %}
+                      <h2>Add Notification</h2>
+                      <table class="addsub">
+                        <tr>
+                          <div class="department">
+                            <td> <label for="department">Notification:</label></td>
+                            <td>
+                              <input type="text" name="notification">
+
+                          </td>
+                         </div>
+                        </tr>
+
+                        
+                      </table>
+                      <button type="submit" class="addSubject-button">Submit</button>
+                </form>
+      
+              </div> 
+         </div> 
+  <!-- ends -->
+
+   </div>
+
+    </div>
+      
+
+
+
+{% endblock %}
+</div>
+
+</div>
+  
+
+

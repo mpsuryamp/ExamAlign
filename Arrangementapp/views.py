@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 from Arrangementapp.models import Login
 from Arrangementapp.serializer import *
-from .forms import Subsembranchform
+from .forms import *
 from.models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -445,7 +445,7 @@ class Allocateseat(View):
                     pass
 
         # After seating arrangement is complete, redirect to the dashboard
-        return redirect('/examcontrollerdashboard/')    
+        return redirect('/seating_arrangement_view/')    
 
 from django.db.models import Sum
 @csrf_exempt
@@ -643,9 +643,65 @@ class FeedbackAPI(APIView):
                     status=status.HTTP_201_CREATED
                 )
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class MalpracticeAPI(APIView):
+    def post(self, request):
+
+    # Handle product addition
+            serializer = MalpracticeSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(
+                    {"message": "Report sent successfully!", "product": serializer.data},
+                    status=status.HTTP_201_CREATED
+                )
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
 
             
     
+class Malpracticeview(View):
+    def get(self,request):
+        Malpractice_instances=Malpractice.objects.all()
+        return render(request, 'Malpractice.html', {'Malpractice_instances': Malpractice_instances})
     
+
+def seating_arrangement_view(request):
+    classrooms = Classroom.objects.all()
+    arrangements = Seating_Arrangement.objects.all()
+
+    context = {
+        'classrooms': classrooms,
+        'arrangements': arrangements,
+    }
+    return render(request, 'seating_arrangement.html', context)
+
+class Viewnotification(View):
+    def get(self,request):
+        noti=ExamNotification.objects.all()
+        return render(request,'viewnotification.html',{'noti':noti})
+
+class Addnotification(View):
+    def get(self,request):
+        return render(request,'addnotification.html')
+    def post(self,request):
+        form=Addnotificationform(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('Viewnotification')
+class Editnotification(View):
+    def get(self,request,id):
+            noti=ExamNotification.objects.get(id=id)
+            return render(request,'editnotification.html',{'noti':noti})
+    def post(self,request,id):
+        noti=ExamNotification.objects.get(id=id)
+        form=Addnotificationform(request.POST,instance=noti)
+        if form.is_valid():
+            form.save()
+            return redirect('')
+class Deletenotification(View):
+    def get(self,request,id):
+        noti=ExamNotification.objects.get(id=id)
+        noti.delete()
+        return redirect('Viewnotification')
 
 

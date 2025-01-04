@@ -1,0 +1,41 @@
+
+{% extends 'base.html' %}
+{% block content %}
+         
+        <!-- block body here -->
+        <table class="assign-table">
+            <button class="add-student-btn"><a href="/Addnotification/" class="btn"><i class="fas fa-plus"></i> Add new notification</a></button>
+               
+                 <thead>    
+                   <tr>
+                      <th colspan="8" style="text-align: center;" class="th"><h3>Notificationss</h3></th>
+                   </tr>
+                   <tr>
+                     <th colspan="8"  style="text-align: center;" class="th">
+
+                     </th>
+                   </tr>
+                    <tr>
+                        <th>si.no</th>
+                        <th>Notification<th>
+                        <th>Date</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for exam_instance in Notification %}
+                        <td>{{forloop.counter}}</td>
+                        <td>{{ exam_instance.notificcation}}</td>
+                        <td>{{ exam_instance.notification_date}}</td>
+                        <td><a href="/deleteexam/{{exam_instance.id}}">Delete</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <!-- ends -->
+       </div>
+
+    </div>
+{% endblock %}

@@ -106,15 +106,22 @@ class Teacherseatingarrangement(models.Model):
 
 class ExamNotification(models.Model):
     notification = models.CharField(max_length=100,null=True,blank=True)
-    Exam_Date=models.DateField(max_length=100,null=True,blank=True)
-    Exam_Name=models.CharField(max_length=100,null=True,blank=True)
-    exam_time = models.TimeField(null=True, blank=True)
+    notification_date = models.DateField(auto_now_add=True,null=True,blank=True)
+    
 
 class Complaint(models.Model):
       user = models.ForeignKey(Login, null=True, blank=True, on_delete=models.CASCADE)
       complaints=models.CharField(max_length=300, null=True, blank=True)
       Date=models.DateField(auto_now_add=True, max_length=100,null=True,blank=True)
       Reply = models.CharField(max_length=100,null=True,blank=True)
+
+class Malpractice(models.Model):
+    user = models.ForeignKey(Login, null=True, blank=True, on_delete=models.CASCADE)
+    registerno = models.CharField(max_length=30, null=True, blank=True)
+    Description = models.CharField(max_length=30, null=True, blank=True)
+    Image = models.FileField(upload_to='Images/', null=True, blank=True)
+
+
 
     
 

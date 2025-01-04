@@ -15,3 +15,9 @@ class Subsembranchform(forms.ModelForm):
     class Meta:
         model= Subject
         fields=['branch','semester','subjectname','subjectcode']
+
+
+class Addnotificationform(forms.ModelForm):
+    class Meta:
+        model = ExamNotification
+        fields = ['notification']
