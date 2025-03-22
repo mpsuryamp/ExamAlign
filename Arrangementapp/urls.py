@@ -34,19 +34,24 @@ path('Viewnotification/',Viewnotification.as_view(),name='Viewnotification'),
 path('Addnotification/',Addnotification.as_view(),name='Addnotification'),
 path('Editnotification/<int:id>/',Editnotification.as_view(),name='Editnotification'),
 path('Deletenotification/<int:id>/',Deletenotification.as_view(),name='Deletenotification'),
+path('ViewFeedback/',ViewFeedback.as_view(),name='ViewFeedback'),
+path('get_exam_halls/', get_exam_halls, name='get_exam_halls'),
 
 
 
 
 path('UserRegapi',UserRegAPI.as_view(),name='UserReg'),
-path('ViewExamHallapi',ViewExamHallAPI.as_view(),name='ViewExamHall'),
+path('get-branches-semesters/', SemesterList.as_view(), name='semester-list'),
+
+path('ViewExamHallapi/<int:id>',ViewExamHallAPI.as_view(),name='ViewExamHall'),
 path('ViewExamScheduleapi',ViewExamScheduleAPI.as_view(),name='ViewExamSchedule'),
 path('ViewExamNotificationapi',ViewExamNotificationAPI.as_view(),name='ViewExamNotification'),
 path('ViewReplyapi',ViewReplyAPI.as_view(),name='ViewReply'),
 path('Complaintapi',ComplaintAPI.as_view(),name='Complaint'),
 path('LoginPageapi',LoginPageAPI.as_view(),name='LoginPage'),
-path('Feedbackapi',FeedbackAPI.as_view(),name='Feedback'),
+path('submitFeedback',FeedbackAPI.as_view(),name='Feedback'),
 path('MalpracticeAPI',MalpracticeAPI.as_view(),name='MalpracticeAPI'),
+path('TeacherSeatingArrangementView/<int:id>',TeacherseatingAPI.as_view(),name='TeacherseatingAPI'),
 
 
 

@@ -25,11 +25,11 @@
                 </thead>
                 <tbody>
                     <tr>
-                        {% for exam_instance in Notification %}
+                        {% for exam_instance in noti %}
                         <td>{{forloop.counter}}</td>
                         <td>{{ exam_instance.notificcation}}</td>
                         <td>{{ exam_instance.notification_date}}</td>
-                        <td><a href="/deleteexam/{{exam_instance.id}}">Delete</a></td>
+                        <td><a href="/Deletenotification/{{exam_instance.id}}">Delete</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>

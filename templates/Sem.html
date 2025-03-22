@@ -21,7 +21,7 @@
       </label>
 
       <label for="Semester">Semester:
-          <select name="semester" id="sem">
+          <select name="semester" id="se">
               <option disabled selected>--Semester--</option>
               {% for semester_instance in semester_instances %}
               <option value="{{ semester_instance.id }}">{{ semester_instance.semestername }}</option>
@@ -50,8 +50,9 @@
             <tr>
 
               <td>{{forloop.counter}}</td>
-              <td>{{subject_instance.branch.branchname}}</td>
               <td>{{subject_instance.semester.semestername}}</td>
+              <td>{{subject_instance.branch.branchname}}</td>
+
                 <td>{{subject_instance.subjectname}}</td>
                 <td>{{subject_instance.subjectcode}}</td>
               <td><a class="edit" href="/editsub/{{subject_instance.id}}">edit</a>

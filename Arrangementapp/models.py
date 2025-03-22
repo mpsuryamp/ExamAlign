@@ -107,13 +107,14 @@ class Teacherseatingarrangement(models.Model):
 class ExamNotification(models.Model):
     notification = models.CharField(max_length=100,null=True,blank=True)
     notification_date = models.DateField(auto_now_add=True,null=True,blank=True)
+    user_type = models.CharField(max_length=100,null=True,blank=True)
     
 
 class Complaint(models.Model):
       user = models.ForeignKey(Login, null=True, blank=True, on_delete=models.CASCADE)
       complaints=models.CharField(max_length=300, null=True, blank=True)
       Date=models.DateField(auto_now_add=True, max_length=100,null=True,blank=True)
-      Reply = models.CharField(max_length=100,null=True,blank=True)
+      Rating = models.IntegerField(null=True,blank=True)
 
 class Malpractice(models.Model):
     user = models.ForeignKey(Login, null=True, blank=True, on_delete=models.CASCADE)

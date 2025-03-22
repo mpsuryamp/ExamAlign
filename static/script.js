@@ -32,30 +32,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-document.getElementById('filter-button').addEventListener('click', function () {
-    const classroomFilter = document.getElementById('classroom-filter').value;
-    const dateFilter = document.getElementById('date-filter').value;
 
-    const rows = document.querySelectorAll('#table-body tr');
-    rows.forEach(row => {
-        const classroomId = row.getAttribute('data-classroom');
-        const examDate = row.getAttribute('data-date');
-
-        if ((classroomFilter === '' || classroomFilter === classroomId) &&
-            (dateFilter === '' || dateFilter === examDate)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-});
-
-function printTable() {
-    const printContent = document.getElementById('seating-table').outerHTML;
-    const printWindow = window.open('', '', 'width=800,height=600');
-    printWindow.document.write('<html><head><title>Seating Arrangement</title></head><body>');
-    printWindow.document.write(printContent);
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-    printWindow.print();
-}
+ 

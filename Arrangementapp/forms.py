@@ -20,4 +20,4 @@ class Subsembranchform(forms.ModelForm):
 class Addnotificationform(forms.ModelForm):
     class Meta:
         model = ExamNotification
-        fields = ['notification']
+        fields = ['notification', 'user_type']

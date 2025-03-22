@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.views import View
 from django.http import HttpResponse
 
-from Arrangementapp.models import Login
+from .models import Login
 from Arrangementapp.serializer import *
 from .forms import *
 from.models import *
@@ -308,6 +308,7 @@ def assign_seating(classrooms, subjects, students_per_subject, columns_per_class
             if students_per_subject[next_subject] == 0:
                 print(f"Error: No students left for subject {next_subject}.")
                 return None
+            
 
             # Update the remaining students for the selected subject
             students_per_subject[next_subject] -= 1
@@ -352,7 +353,7 @@ def update_seating_arrangement_register_numbers():
 
         # Check if there are register numbers available
         if register_numbers:
-            print(register_numbers)
+            print(register_numbers) 
             # Calculate the index to access register numbers cyclically
             i = (index - 1) % len(register_numbers)  # Adjusted indexing to start from zero
             # Update the register number for the current seating entry
@@ -365,8 +366,12 @@ class Allocateseat(View):
         return render(request, 'newallocation1.html', {'classroom_instances': classroom_instances})
 
     def post(self, request):
+
         exam_date = request.POST['exam_date']
+        print("exam_date",exam_date)
+        Seating_Arrangement.objects.filter(exam_date=exam_date).delete()
         classrooms = request.POST.getlist('class_name')
+        print("classrooms",classrooms)
         non_null_classrooms = list(filter(lambda x: x is not None, classrooms))
         exam_details = ExamDetails.objects.filter(exam_date=exam_date).all()
         print("exam_details",exam_details)
@@ -376,7 +381,9 @@ class Allocateseat(View):
         subject_ids = []
         for exam_detail in exam_details:
             subject_code = exam_detail.exam_subject.subjectcode
+            print("subject_code",subject_code)
             subject_id = exam_detail.exam_subject.id
+            print("subject_id",subject_id)
             subject_ids.append(subject_id)
             num_students = int(exam_detail.no_of_students)  # Convert to integer
             students_per_subject[subject_code] = num_students
@@ -426,15 +433,19 @@ class Allocateseat(View):
                                 # Find a student who hasn't been assigned yet
                     student = filtered_students.first()
                     print("student", student)
+                    print("subject_instance",subject_code)
+                    # print("exam_name",exam_name)
                     if student:
                         # Create a new SeatingArrangement object with the student's register number
                         seating_entry = Seating_Arrangement(
                             classroom_number=classroom, seat_number=seat + 1,
                             subject=subject_instance, exam_date=exam_date,
-                            exam_name=exam_details.filter(exam_subject__subjectcode=subject_code).first().exam_name,
-                            exam_time=exam_details.filter(exam_subject__subjectcode=subject_code).first().exam_time,
+                            exam_name=exam_details.filter(exam_subject__subjectcode=subject_instance.subjectcode).first().exam_name,
+                            exam_time=exam_details.filter(exam_subject__subjectcode=subject_instance.subjectcode).first().exam_time,
                             register_no=student.registerno  # Assign the register number here
                         )
+                        exam_name=exam_details.filter(exam_subject__subjectcode=subject_code).first().exam_name
+                        print("exam_name",exam_name)
 
                         print("seating_entry",seating_entry)
                         seating_entry.save()
@@ -466,6 +477,7 @@ def get_class_details(request, classroomId):
         class_details = Classroom.objects.filter(id=classroomId).first()
         print(class_details)
         response_data = [{'capacity': class_details.capacity, 'columns': class_details.columns}]
+        print("rrrrrrrrrrrr",response_data)
         return JsonResponse(response_data)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
@@ -544,16 +556,21 @@ class Deletestaff(View):
 class UserRegAPI(APIView):
     def post(self, request):
         print("###############",request.data)
-        user_serial = UserSerializer(data=request.data)
-        Login_serial = Loginserializer(data=request.data)
+        data={}
+        data=request.data
+        data['Usertype']='student'
+        data['Username']=request.data.get('username')
+        data['Password']=request.data.get('password')
+        data['first_name']=request.data.get('username')
+        data['registerno']=request.data.get('regNo')
+        user_serial = UserSerializer(data=data)
+        Login_serial = Loginserializer(data=data)
         data_valid = user_serial.is_valid()
         Login_valid = Login_serial.is_valid()
 
         if data_valid and Login_valid:
-            print("&&&&&&&&&&&&&&&&")
-            password = request.data['password']
-            login_profile = Login_serial.save(user_type='USER', password=password)
-            user_serial.save(Login=login_profile)
+            login_profile = Login_serial.save()
+            user_serial.save(user=login_profile)
             return Response(user_serial.data, status=status.HTTP_201_CREATED)
         return Response({'login_error': Login_serial.errors if not Login_valid else None,
                             'user_error': user_serial.errors if not data_valid else None}, status=status.HTTP_400_BAD_REQUEST)
@@ -566,6 +583,8 @@ class LoginPageAPI(APIView):
         # Get data from the request
         username = request.data.get("username")
         password = request.data.get("password")
+        print(username)
+        print(password)
 
         # Validate input
         if not username or not password:
@@ -573,7 +592,8 @@ class LoginPageAPI(APIView):
             return Response(response_dict, status=HTTP_400_BAD_REQUEST)
 
         # Fetch the user from LoginTable
-        t_user = Login.objects.filter(Username=username).first()
+        t_user = Login.objects.filter(Username=username,Password=password).first()
+        print(t_user)
 
         if not t_user:
             response_dict["message"] = "failed"
@@ -593,8 +613,10 @@ class LoginPageAPI(APIView):
 
 
 class ViewExamHallAPI(APIView):
-    def get(self,request):
-        examinationhall  = Seating_Arrangement.objects.all()
+    def get(self,request,id):
+        st_reg=Studentprofile.objects.filter(user__id=id).first()
+        print(st_reg)
+        examinationhall  = Seating_Arrangement.objects.filter(register_no=st_reg.registerno).all()
         examinationhall_serializer = ExaminationHallserializer(examinationhall, many = True)
         return Response(examinationhall_serializer.data) 
 
@@ -662,6 +684,7 @@ class MalpracticeAPI(APIView):
 class Malpracticeview(View):
     def get(self,request):
         Malpractice_instances=Malpractice.objects.all()
+        print(Malpractice_instances)
         return render(request, 'Malpractice.html', {'Malpractice_instances': Malpractice_instances})
     
 
@@ -678,6 +701,7 @@ def seating_arrangement_view(request):
 class Viewnotification(View):
     def get(self,request):
         noti=ExamNotification.objects.all()
+        print(noti)
         return render(request,'viewnotification.html',{'noti':noti})
 
 class Addnotification(View):
@@ -703,5 +727,46 @@ class Deletenotification(View):
         noti=ExamNotification.objects.get(id=id)
         noti.delete()
         return redirect('Viewnotification')
+class TeacherseatingAPI(APIView):
+    def get(self,request,id):
+        teacherseating  = Teacherseatingarrangement.objects.filter(teacher__id=id).all()
+        teacherseating_serializer = Teacherseatingarrangementserializer(teacherseating, many = True)
+        return Response(teacherseating_serializer.data)
+    
+class ViewFeedback(View):
+    def get(self, request):
+        # Render the form template
+        staff_instances=Complaint.objects.all()
+        return render(request, 'viewfeedback.html',{'staff_instances':staff_instances})
 
+def get_exam_halls(request):
+    exam_date = request.GET.get('exam_date')
+    print(exam_date)
+    from datetime import datetime
+
+    # Input date string
+    date_string = "April 27, 2024"
+
+    # Parse the input date string into a datetime object
+    date_object = datetime.strptime(date_string, "%B %d, %Y")
+
+    # Convert the datetime object to the desired format
+    formatted_date = date_object.strftime("%Y-%m-%d")
+
+    print(formatted_date)
+    exam_halls = Classroom.objects.filter(seating_arrangement__exam_date=formatted_date).values('hallno').distinct()
+    print(exam_halls)
+    return JsonResponse(list(exam_halls), safe=False)
+
+
+class SemesterList(APIView):
+    def get(self, request):
+        response={}
+        semesters = Semester.objects.all()
+        serializer = SemesterSerializer(semesters, many=True)
+        branches = Branch.objects.all()
+        serializer1 = BranchSerializer(branches, many=True)
+        response['semesters'] = serializer.data
+        response['branches'] = serializer1.data
+        return Response(response)
 

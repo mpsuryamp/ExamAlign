@@ -1,5 +1,27 @@
-{% extends 'base.html'%}
-{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seating Arrangement</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
     <h1>Seating Arrangement</h1>
 
     <label for="classroom-filter">Classroom:</label>
@@ -12,8 +34,8 @@
 
     <label for="date-filter">Exam Date:</label>
     <input type="date" id="date-filter">
-    <button id="filter-button">Filter</button>
 
+    <button id="filter-button">Filter</button>
     <button onclick="printTable()">Print PDF</button>
 
     <table id="seating-table">
@@ -42,76 +64,96 @@
             {% endfor %}
         </tbody>
     </table>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const classroomFilter = document.getElementById('classroom-filter');
             const dateFilter = document.getElementById('date-filter');
             const filterButton = document.getElementById('filter-button');
             const tableBody = document.getElementById('table-body');
-
+    
             function formatDateToMatch(dataDate) {
                 try {
                     if (!dataDate) return "";
                     const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
                     const dateObj = new Date(dataDate);
-                    if (isNaN(dateObj)) throw new Error("Invalid date format");
+                    
+                    if (isNaN(dateObj)) {
+                        console.error(`Invalid date format received: ${dataDate}`);
+                        return "";
+                    }
+    
                     const formattedDate = `${months[dateObj.getMonth()]} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
-                    console.log("Formatted Date:", formattedDate);
+                    console.log(`Formatted input date: ${formattedDate}`);
                     return formattedDate;
                 } catch (error) {
-                    console.error("Error formatting date:", error);
+                    console.error("Error in formatDateToMatch function:", error);
                     return "";
                 }
             }
-
+    
             function filterTable() {
                 try {
-                    const selectedClassroom = classroomFilter.options[classroomFilter.selectedIndex].text.trim();
+                    const selectedClassroom = classroomFilter.options[classroomFilter.selectedIndex]?.text.trim() || "";
                     const selectedDate = dateFilter.value ? formatDateToMatch(dateFilter.value) : "";
-                    console.log("Selected Classroom:", selectedClassroom);
-                    console.log("Selected Date:", selectedDate);
-
+    
+                    console.log(`Filtering by - Classroom: "${selectedClassroom}", Date: "${selectedDate}"`);
+    
                     const rows = tableBody.querySelectorAll('tr');
-
-                    rows.forEach(function(row) {
-                        const rowClassroom = row.children[0].textContent.trim();
-                        const rowExamDate = row.children[2].textContent.trim();
-                        console.log("Row Classroom:", rowClassroom);
-                        console.log("Row Exam Date:", rowExamDate);
-
-                        const matchesClassroom = classroomFilter.value === "" || rowClassroom === selectedClassroom;
-                        const matchesDate = dateFilter.value === "" || rowExamDate === selectedDate;
-
-                        if (matchesClassroom && matchesDate) {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
+                    if (!rows.length) {
+                        console.warn("No rows found in the table.");
+                    }
+    
+                    rows.forEach(function (row, index) {
+                        try {
+                            const rowClassroom = row.children[0]?.textContent.trim() || "";
+                            const rowExamDate = row.children[2]?.textContent.trim() || "";
+    
+                            console.log(`Row ${index + 1} - Classroom: "${rowClassroom}", Date: "${rowExamDate}"`);
+    
+                            const matchesClassroom = classroomFilter.value === "" || rowClassroom === selectedClassroom;
+                            const matchesDate = dateFilter.value === "" || rowExamDate === selectedDate;
+    
+                            if (matchesClassroom && matchesDate) {
+                                row.style.display = '';
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        } catch (rowError) {
+                            console.error(`Error processing row ${index + 1}:`, rowError);
                         }
                     });
-                } catch (error) {
-                    console.error("Error filtering table:", error);
+                } catch (filterError) {
+                    console.error("Error in filterTable function:", filterError);
                 }
             }
-
-            filterButton.addEventListener('click', function() {
-                console.log('Filtering table...');
+    
+            filterButton.addEventListener('click', function () {
+                console.log('Filter button clicked. Applying filters...');
                 filterTable();
             });
-
-            window.printTable = function() {
+    
+            window.printTable = function () {
                 try {
                     const table = document.getElementById('seating-table');
+                    if (!table) {
+                        console.error("Seating table not found.");
+                        return;
+                    }
+    
                     const newWindow = window.open('', '', 'width=800, height=600');
                     newWindow.document.write('<html><head><title>Seating Arrangement</title></head><body>');
                     newWindow.document.write(table.outerHTML);
                     newWindow.document.write('</body></html>');
                     newWindow.document.close();
                     newWindow.print();
-                } catch (error) {
-                    console.error("Error printing table:", error);
+                    console.log("Print function executed successfully.");
+                } catch (printError) {
+                    console.error("Error in printTable function:", printError);
                 }
             };
         });
     </script>
-    {% endblock %}
-
+    
+</body>
+</html>
